@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>音訊控制介面</title>
+</head>
+<body>
+  <h2>音訊上傳與播放（轉為 byte 陣列傳送）</h2>
+  <form id="uploadForm" enctype="multipart/form-data">
+    <input type="file" name="audioFile" accept=".mp3,.m4a,.aac,.wav" required />
+    <button type="submit">上傳並播放</button>
+  </form>
+
+  <h2>LED 模式切換</h2>
+  <button onclick="setMode(0)">模式 0</button>
+  <button onclick="setMode(1)">模式 1</button>
+  <button onclick="setMode(2)">模式 2</button>
+  <button onclick="setMode(3)">模式 3</button>
+
+  <script>
+    document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const res = await fetch('/upload', {
+        method: 'POST',
+        body: formData
+      });
+      const text = await res.text();
+      alert(text);
+    });
+
+    function setMode(mode) {
+      fetch(`/led/${mode}`, { method: 'POST' })
+        .then(res => res.text())
+        .then(alert)
+        .catch(err => alert("錯誤：" + err));
+    }
+  </script>
+</body>
+</html>
