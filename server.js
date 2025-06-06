@@ -172,7 +172,7 @@ app.post("/upload", upload.single("audioFile"), async (req, res) => {
 });
 
 
-// 🔘 LED 控制
+// LED 控制
 app.post("/led/:mode", (req, res) => {
   const mode = req.params.mode;
   if (!["0", "1", "2", "3"].includes(mode)) {
